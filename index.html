@@ -71,7 +71,7 @@
                                 </span>
                                 <!-- Code Link. -->
                                 <span class="link-block">
-                                    <a href=""
+                                    <a href="https://github.com/AadSah/3d-mllm/tree/main"
                                         class="external-link button is-normal is-rounded is-dark">
                                         <span class="icon">
                                             <i class="fab fa-github"></i>
@@ -171,26 +171,27 @@
         <div class="container is-max-desktop">
             <div class="columns is-centered has-text-centered">
                 <div class="column is-full-width">
-                    <h2 class="title is-3">Results</h2>
+                    <h2 class="title is-3">Qualitative Examples</h2>
                     <div class="tabs is-boxed is-centered is-medium" id="tabs">
                         <ul>
-                            <li data-tab="rendering" class="is-active"><a>Rendering</a></li>
+                            <li data-tab="rendering-clevr" class="is-active"><a>Rendering - CLEVR</a></li>
+                            <li data-tab="rendering-objaworld"><a>Rendering - ObjaWorld</a></li>
                             <li data-tab="recognition"><a>Recognition</a></li>
-                            <li data-tab="instruction-following"><a>Instruction-Following</a></li>
+                            <!-- <li data-tab="instruction-following"><a>Instruction-Following</a></li> -->
                             <li data-tab="question-answering"><a>Question-Answering</a></li>
                         </ul>
                     </div>
                     <div class="columns is-centered has-text-left">
-                        <div class="column is-two-thirds content">
+                        <!-- <div class="column is-two-thirds content">
                             <p>Here, we show qualitative examples for each of the four tasks.</p>
-                        </div>
+                        </div> -->
                     </div>
-                    <!-- Rendering -->
+                    <!-- Rendering (CLEVR) -->
                     <div id="tabs-content">
-                        <div data-content="rendering" class="tab-content is-active content has-text-left">
+                        <div data-content="rendering-clevr" class="tab-content is-active content has-text-left">
                             <div class="columns is-centered has-text-left">
                                 <div class="column is-two-thirds content">
-                                    Description of rendering task.
+                                    Example image generations for the rendering task on CLEVR. The model takes a 3D scene as input and produces a corresponding image. Additionally, we show the ground-truth image rendered using Blender.
                                 </div>
                             </div>
                             <table width="100%">
@@ -201,11 +202,25 @@
                             </table>
 
                         </div>
+                        <!-- Rendering (ObjaWorld) -->
+                        <div data-content="rendering-objaworld" class="tab-content content">
+                            <div class="columns is-centered has-text-left">
+                                <div class="column is-two-thirds content">
+                                    Example image generations for the rendering task on ObjaWorld. The model takes a 3D scene as input and produces a corresponding image. Additionally, we show the ground-truth image rendered using Blender.
+                                </div>
+                            </div>
+                            <table width="100%">
+                                <tr>
+                                    <td align="center"><img src="static/images/app-rendering-examples-objaworld.png" width="100%">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                         <!-- Recognition -->
                         <div data-content="recognition" class="tab-content content">
                             <div class="columns is-centered has-text-left">
                                 <div class="column is-two-thirds content">
-                                    Description of recognition task.
+                                    Two example predictions from the recognition task on ObjaWorld. The colored numbers indicate object matching between the predicted and ground-truth scenes, based on the criteria for Jaccard Index as defined in Algorithm 1 in the paper.
                                 </div>
                             </div>
                             <table width="100%">
@@ -216,7 +231,7 @@
                             </table>
                         </div>
                         <!-- Instruction-Following -->
-                        <div data-content="instruction-following" class="tab-content content">
+                        <!-- <div data-content="instruction-following" class="tab-content content">
                             <div class="columns is-centered has-text-left">
                                 <div class="column is-two-thirds content">
                                     Description of instruction-following task.
@@ -228,12 +243,12 @@
                                     </td>
                                 </tr>
                             </table>
-                        </div>
+                        </div> -->
                         <!-- Question-Answering -->
                         <div data-content="question-answering" class="tab-content content">
                             <div class="columns is-centered has-text-left">
                                 <div class="column is-two-thirds content">
-                                    Description of question-answering task.
+                                    Example cases from the question-answering task on CLEVR. The model takes an image, a 3D scene, and a question as input to generate the corresponding answer.
                                 </div>
                             </div>
                             <table width="100%">
@@ -264,8 +279,7 @@
                 for the second object. 
                 The <code>3d-coords</code> are fixed. 
                 The coordinate axes are such that the bottom-right corner is the positive x-axis, top-left corner is negative x-axis and the top-right corner is the positive y-axis, bottom-left is negative y-axis.
-                Click <b>"Generate"</b> to retrieve a corresponding precomputed image from 
-                <code>./static/images/demo/</code>.
+                Click <b>"Generate"</b> to retrieve a corresponding precomputed image.
             </p>
           </div>
         </div>
@@ -403,19 +417,87 @@
         </div>
     </section>
 
+    <section class="section">
+        <div class="container is-max-desktop">
+      
+          <h2 class="title is-3">Varying the X-coordinate (Rolling Ball Demo)</h2>
+          <div class="content has-text-justified">
+            <p>
+              Below is another interactive demo that lets you vary the <b>x</b>-coordinate from <code>-3.00</code> to
+              <code>+3.00</code> in steps of <code>0.05</code>. For each x value, we display a pair of images:
+              <b>generated</b> vs. <b>groundtruth</b>. Note that the coordinate axes are such that the bottom-right corner is the positive x-axis, top-left corner is negative x-axis and the top-right corner is the positive y-axis, bottom-left is negative y-axis.
+            </p>
+          </div>
+      
+          <!-- Slider control -->
+          <div class="field has-text-centered" style="text-align: center;">
+            <label class="label" style="text-align: center;">X-coordinate value:</label>
+            <div class="control" style="display: inline-block; white-space: nowrap;">
+              <input
+                id="x-slider"
+                class="slider"
+                step="0.05"
+                min="-3.00"
+                max="3.00"
+                value="0.00"
+                type="range"
+                style="vertical-align: middle; width: 700px;"
+              >
+              <output
+                id="x-slider-value"
+                style="display: inline-block; margin-left: 0.5rem; vertical-align: middle;"
+              >
+                0.00
+              </output>
+            </div>
+          </div>
+      
+          <!-- Images side by side -->
+          <div class="columns">
+            <div class="column is-half">
+              <h3 class="title is-4 has-text-centered">Generated Image</h3>
+              <figure 
+                class="image is-square is-flex is-align-items-center is-justify-content-center"
+                style="background: #f5f5f5;"
+              >
+                <img
+                  id="x-generated-img"
+                  src="GENERATED/generated_0.00-sphere-metal-gray-small.png"
+                  alt="Generated Output"
+                  style="max-width: 100%; max-height: 100%;"
+                >
+              </figure>
+            </div>
+      
+            <div class="column is-half">
+              <h3 class="title is-4 has-text-centered">Groundtruth Image (Blender)</h3>
+              <figure 
+                class="image is-square is-flex is-align-items-center is-justify-content-center"
+                style="background: #f5f5f5;"
+              >
+                <img
+                  id="x-groundtruth-img"
+                  src="BLENDER-GROUNDTRUTH/0.00-sphere-metal-gray-small.png"
+                  alt="Groundtruth Output"
+                  style="max-width: 100%; max-height: 100%;"
+                >
+              </figure>
+            </div>
+          </div>
+      
+        </div>
+      </section>
+
     <section class="section" id="BibTeX">
         <div class="container is-max-desktop content">
             <h2 class="title">BibTeX</h2>
             <pre>
-<code>@misc{sahoo2025XXX,
-    title={}, 
-    author={},
-    year={2025},
-    eprint={},
-    archivePrefix={},
-    primaryClass={},
-    url={}, 
-}</code></pre>
+<code>@article{sahoo2023autoregressive,
+    title={An Autoregressive Exploration of 3D Multi-Modal LLMs},
+    author={Sahoo, Aadarsh and Gkioxari, Georgia},
+    journal={arXiv preprint arXiv:XXXX.XXXXX},
+    year={2023}
+  }</code></pre>
         </div>
     </section>
 
@@ -442,7 +524,7 @@
 <script>
     /**
      * Build the final image filename from the 3 objects.
-     * e.g. "generated_cube-metal-yellow-large__sphere-rubber-red-small__sphere-rubber-blue-small.png"
+     * e.g. "generated_cube-metal-yellow-large__sphere-rubber-blue-small__sphere-metal-purple-large.png"
      */
     function buildImageFilename(objects) {
       // e.g. "generated_sphere-metal-red-large__cube-rubber-blue-small__sphere-metal-purple-large.png"
@@ -451,14 +533,12 @@
       });
       return parts.join('__') + '.png';
     }
-  
+
     $(document).ready(function() {
-      // Generate button click
+      // ------------ FIRST DEMO (Generate Button) ------------ //
       $('#generate-btn').click(function(e) {
         e.preventDefault();
-  
-        // 1) Collect the data for your 3 objects as before
-        //    (Example: first object in .static-object:eq(0), second in .dynamic-object, third in .static-object:eq(1))
+
         const staticObj1 = {
           shape:    $('.static-object').eq(0).data('shape'),
           material: $('.static-object').eq(0).data('material'),
@@ -477,32 +557,60 @@
           color:    $('.static-object').eq(1).data('color'),
           size:     $('.static-object').eq(1).data('size')
         };
-  
+
+        // Collect the user-modifiable object plus the 2 static ones if needed
         const objects = [dynamicObj2];
-        
-        // 2) Build the main "generated" filename
-        const fileName = buildImageFilename(objects); 
-        // e.g. "generated_cube-metal-yellow-large__sphere-metal-purple-large__sphere-rubber-blue-small.png"
-        
-        // 3) Build the path for "generated" + "groundtruth" images
+
+        // Build a filename for the "generated" image
+        const fileName = buildImageFilename(objects);
+
+        // Construct full path for the generated + groundtruth
         const generatedPath   = './static/demo-images/' + fileName;
-        const groundtruthPath = './static/demo-images/blender-groundtruth/' + fileName.replace('generated_', '');
-        // (adjust path/prefix as needed)
-  
-        // 4) Show spinner, hide the current images
+        const groundtruthPath = './static/demo-images/blender-groundtruth/'
+                                + fileName.replace('generated_', '');
+
+        // Show loading spinner, hide images
         $('#generated-img').hide();
         $('#groundtruth-img').hide();
         $('#loading-indicator').show();
-  
-        // 5) Simulate a short delay to mimic loading
+
+        // Simulate a short delay to mimic loading
         setTimeout(() => {
-          // Hide spinner
           $('#loading-indicator').hide();
-  
-          // Update both images
           $('#generated-img').attr('src', generatedPath).show();
           $('#groundtruth-img').attr('src', groundtruthPath).show();
         }, 1500);
       });
+
+      // ------------ SECOND DEMO (Slider for X-coordinate) ------------ //
+      // 1) Factor out the update logic into a function so we can call it on load
+      function updateSliderImages() {
+        // Grab current slider value (to 2 decimals)
+        let val = parseFloat($('#x-slider').val()).toFixed(2);
+
+        // We can prepend a '+' if you like, but be sure it matches how your images are named
+        // e.g., if your image file names are "generated_-2.00-sphere-metal-gray-small.png"
+        // or "generated_+2.00-sphere-metal-gray-small.png"
+        // For example, if you need a plus sign for positive values:
+        let signVal = val // (val >= 0) ? `+${val}` : val; 
+
+        // Update the displayed numerical value
+        $('#x-slider-value').text(val);
+
+        // Build the file paths for the generated & groundtruth images
+        // (Adjust exactly how you name your files as needed)
+        let generatedPath = `./static/x-axis-demo-images/GENERATED/generated_${signVal}-sphere-metal-gray-small.png`;
+        let groundPath    = `./static/x-axis-demo-images/BLENDER-GROUNDTRUTH/${signVal}-sphere-metal-gray-small.png`;
+
+        // Update the <img> 'src' attributes
+        $('#x-generated-img').attr('src', generatedPath);
+        $('#x-groundtruth-img').attr('src', groundPath);
+      }
+
+      // 2) Listen for slider changes and call our function
+      $('#x-slider').on('input', updateSliderImages);
+
+      // 3) **Call it ONCE right away** (so an image is shown before moving the slider)
+      updateSliderImages();
     });
-  </script>
+</script>
