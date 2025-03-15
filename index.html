@@ -2,304 +2,276 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="description" content="3D-MLLM">
-    <meta name="keywords" content="3D multi-modal LLMs, Cookbook">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>An Autoregressive Exploration of 3D Multi-Modal LLMs</title>
+  <meta charset="utf-8">
+  <meta name="description" content="3D-MLLM">
+  <meta name="keywords" content="3D multi-modal LLMs, Cookbook">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>An Autoregressive Exploration of 3D Multi-Modal LLMs</title>
 
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <!-- Bulma and other CSS -->
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/3d-vector.png">
 
-    <link rel="stylesheet" href="./static/css/bulma.min.css">
-    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <link rel="stylesheet" href="./static/css/index.css">
-    <link rel="icon" href="./static/images/3d-vector.png">
+  <!-- jQuery & Plotly -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
-    <script defer src="./static/js/fontawesome.all.min.js"></script>
-    <script src="./static/js/bulma-carousel.min.js"></script>
-    <script src="./static/js/bulma-slider.min.js"></script>
-    <script src="./static/js/index.js"></script>
+  <!-- Add a tiny inline style block to ensure responsiveness -->
+  <style>
+    /* Ensure images and video shrink appropriately on mobile */
+    img, video {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Let Bulma’s grid system handle responsiveness rather than fixed px widths */
+    #x-slider {
+      width: 100% !important; 
+    }
+
+    /* Optionally, let .image.is-square adjust height automatically. */
+    .image.is-square {
+      height: auto; 
+    }
+  </style>
 </head>
 
 <body>
-    <section class="hero">
-        <div class="hero-body">
-            <div class="container is-max-desktop">
-                <div class="columns is-centered">
-                    <div class="column has-text-centered">
-                        <h1 class="title is-1 publication-title">An Autoregressive Exploration of 3D Multi-Modal LLMs</h1>
-                        <div class="is-size-5 publication-authors">
-                            <span class="author-block">
-                                <a href="https://aadsah.github.io/" target="_blank"
-                                    rel="noopener noreferrer">Aadarsh Sahoo</a>,</span>
-                            <span class="author-block">
-                                <a href="https://gkioxari.github.io/" target="_blank" rel="noopener noreferrer">Georgia
-                                    Gkioxari</a></span>
-                        </div>
-
-                        <div class="is-size-5 publication-authors">
-                            <span class="author-block">Caltech</span>
-                        </div>
-
-                        <div class="column has-text-centered">
-                            <div class="publication-links">
-                                <!-- PDF Link. -->
-                                <span class="link-block">
-                                    <a href=""
-                                        class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <i class="fas fa-file-pdf"></i>
-                                        </span>
-                                        <span>Paper</span>
-                                    </a>
-                                </span>
-                                <span class="link-block">
-                                    <a href=""
-                                        class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <i class="ai ai-arxiv"></i>
-                                        </span>
-                                        <span>arXiv</span>
-                                    </a>
-                                </span>
-                                <!-- Code Link. -->
-                                <span class="link-block">
-                                    <a href="https://github.com/AadSah/3d-mllm/tree/main"
-                                        class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <i class="fab fa-github"></i>
-                                        </span>
-                                        <span>Code</span>
-                                    </a>
-                                </span>
-                                <!-- Dataset Link. -->
-                                <span class="link-block">
-                                    <a href="https://huggingface.co/datasets/aadarsh99/3d-mllm-datasets-and-codebooks"
-                                        class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg"
-                                                alt="Hugging Face logo" style="height: 1em;">
-                                        </span>
-                                        <span>Dataset</span>
-                                    </a>
-                                </span>
-                                
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              An Autoregressive Exploration of 3D Multi-Modal LLMs
+            </h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://aadsah.github.io/" target="_blank"
+                   rel="noopener noreferrer">Aadarsh Sahoo</a>,</span>
+              <span class="author-block">
+                <a href="https://gkioxari.github.io/" target="_blank"
+                   rel="noopener noreferrer">Georgia Gkioxari</a></span>
             </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container is-max-desktop">
-            <!-- Abstract. -->
-            <div class="columns is-centered has-text-centered">
-                <div class="content has-text-centered">
-                    <p>
-                        <b>tl;dr</b> We present a cookbook of important findings towards building 3D multi-modal LLMs.
-                    </p>
-                </div>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">Caltech</span>
             </div>
-        </div>
-        <!--/ Abstract. -->
-        </div>
-    </section>
-
-    <section class="teaser video">
-        <div class="container is-max-desktop">
-
-            <div class="teaser-body">
-                <video id="teaser" autoplay muted loop playsinline height="80%">
-                    <source src="static/videos/webpage-video.mov"
-                        type="video/mp4">
-                </video>
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- Paper Link -->
+                <span class="link-block">
+                  <a href=""
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <!-- arXiv Link -->
+                <span class="link-block">
+                  <a href=""
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <!-- Code Link -->
+                <span class="link-block">
+                  <a href="https://github.com/AadSah/3d-mllm/tree/main"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <!-- Dataset Link -->
+                <span class="link-block">
+                  <a href="https://huggingface.co/datasets/aadarsh99/3d-mllm-datasets-and-codebooks"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg"
+                           alt="Hugging Face logo"
+                           style="height: 1em;">
+                    </span>
+                    <span>Dataset</span>
+                  </a>
+                </span>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
-
-
-    <section class="section">
-        <div class="container is-max-desktop">
-            <!-- Abstract. -->
-            <div class="columns is-centered has-text-centered">
-                <div class="column is-four-fifths">
-                    <h2 class="title is-3">Abstract</h2>
-                    <div class="content has-text-justified">
-                        <p>
-                            Creating machines capable of understanding the world in 3D is essential in assisting designers that build and edit 3D environments and robots navigating and interacting within a three-dimensional space. Inspired by advances in language and image modeling, we investigate the potential of autoregressive models for a new domain: 3D scenes. We build a 3D multi-modal large language model (3D-MLLM) that aligns language, images, and 3D scenes. We provide a detailed "cookbook" outlining critical design choices for achieving optimal training and performance. We address key questions related to architecture, training strategies, data representation, modality-specific objectives, and more. Through an extensive and rigorous analysis, we evaluate performance across four core 3D tasks (rendering, recognition, instruction-following, question-answering) and three 3D datasets. We believe our findings will serve as practical guidelines for training LLMs tailored for 3D understanding.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <!--/ Abstract. -->
+      </div>
+    </div>
+  </section>
+  
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="content has-text-centered">
+          <p>
+            <b>tl;dr</b> We present a cookbook of important findings towards building 3D multi-modal LLMs.
+          </p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
+  <section class="teaser video">
+    <div class="container is-max-desktop">
+      <div class="teaser-body">
+        <!-- Make video responsive by removing fixed height and letting max-width handle it -->
+        <video id="teaser" autoplay muted loop playsinline
+               style="max-width:100%; height:auto;">
+          <source src="static/videos/webpage-video.mov" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </section>
 
-    <section class="section">
-        <div class="container is-max-desktop">
-            <!-- Approach. -->
-            <div class="columns is-centered has-text-centered">
-                <div class="column is-full-width">
-                    <h2 class="title is-3">Approach</h2>
-
-                    <div class="content has-text-justified">
-                        <p>
-                            <b>Left:</b> Our 3D-MLLM, a decoder-only Transformer, aligns images, 3D, and text. <b>Right:</b> We evaluate 3D-MLLM on four core 3D tasks framed as next-token prediction -- rendering, recognition, instruction-following, and question-answering.
-                        </p>
-                        <img src="static/images/teaser.png" alt="Approach" width="100%">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    
-    <section class="section">
-        <div class="container is-max-desktop">
-            <div class="columns is-centered has-text-centered">
-                <div class="column is-full-width">
-                    <h2 class="title is-3">Qualitative Examples</h2>
-                    <div class="tabs is-boxed is-centered is-medium" id="tabs">
-                        <ul>
-                            <li data-tab="rendering-clevr" class="is-active"><a>Rendering - CLEVR</a></li>
-                            <li data-tab="rendering-objaworld"><a>Rendering - ObjaWorld</a></li>
-                            <li data-tab="recognition"><a>Recognition</a></li>
-                            <!-- <li data-tab="instruction-following"><a>Instruction-Following</a></li> -->
-                            <li data-tab="question-answering"><a>Question-Answering</a></li>
-                        </ul>
-                    </div>
-                    <div class="columns is-centered has-text-left">
-                        <!-- <div class="column is-two-thirds content">
-                            <p>Here, we show qualitative examples for each of the four tasks.</p>
-                        </div> -->
-                    </div>
-                    <!-- Rendering (CLEVR) -->
-                    <div id="tabs-content">
-                        <div data-content="rendering-clevr" class="tab-content is-active content has-text-left">
-                            <div class="columns is-centered has-text-left">
-                                <div class="column is-two-thirds content">
-                                    Example image generations for the rendering task on CLEVR. The model takes a 3D scene as input and produces a corresponding image. Additionally, we show the ground-truth image rendered using Blender.
-                                </div>
-                            </div>
-                            <table width="100%">
-                                <tr>
-                                    <td align="center"><img src="static/images/app-rendering-examples-clevr.png" width="100%">
-                                    </td>
-                                </tr>
-                            </table>
-
-                        </div>
-                        <!-- Rendering (ObjaWorld) -->
-                        <div data-content="rendering-objaworld" class="tab-content content">
-                            <div class="columns is-centered has-text-left">
-                                <div class="column is-two-thirds content">
-                                    Example image generations for the rendering task on ObjaWorld. The model takes a 3D scene as input and produces a corresponding image. Additionally, we show the ground-truth image rendered using Blender.
-                                </div>
-                            </div>
-                            <table width="100%">
-                                <tr>
-                                    <td align="center"><img src="static/images/app-rendering-examples-objaworld.png" width="100%">
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <!-- Recognition -->
-                        <div data-content="recognition" class="tab-content content">
-                            <div class="columns is-centered has-text-left">
-                                <div class="column is-two-thirds content">
-                                    Two example predictions from the recognition task on ObjaWorld. The colored numbers indicate object matching between the predicted and ground-truth scenes, based on the criteria for Jaccard Index as defined in Algorithm 1 in the paper.
-                                </div>
-                            </div>
-                            <table width="100%">
-                                <tr>
-                                    <td align="center"><img src="static/images/app-recognition-examples-clevr.png" width="100%">
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <!-- Instruction-Following -->
-                        <!-- <div data-content="instruction-following" class="tab-content content">
-                            <div class="columns is-centered has-text-left">
-                                <div class="column is-two-thirds content">
-                                    Description of instruction-following task.
-                                </div>
-                            </div>
-                            <table width="100%">
-                                <tr>
-                                    <td align="center"><img src="static/images/app-rendering-examples-clevr.png" width="100%">
-                                    </td>
-                                </tr>
-                            </table>
-                        </div> -->
-                        <!-- Question-Answering -->
-                        <div data-content="question-answering" class="tab-content content">
-                            <div class="columns is-centered has-text-left">
-                                <div class="column is-two-thirds content">
-                                    Example cases from the question-answering task on CLEVR. The model takes an image, a 3D scene, and a question as input to generate the corresponding answer.
-                                </div>
-                            </div>
-                            <table width="100%">
-                                <tr>
-                                    <td align="center"><img src="static/images/app-qa-examples-clevr.png" width="100%">
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container is-max-desktop">
-    
-            <!-- Interactive Demos -->
-    <div class="columns is-centered has-text-centered">
-        <div class="column is-full-width">
-          <h2 class="title is-3">Interactive Rendering Demos</h2>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-                Below is a JSON panel with exactly <b>3 objects</b>.
-                The first and third are <b>read-only</b>, and you can only modify the <b>middle object</b>.
-                Choose <code>shape</code>, <code>material</code>, <code>color</code>, and <code>size</code>
-                for the second object. 
-                The <code>3d-coords</code> are fixed. 
-                The coordinate axes are such that the bottom-right corner is the positive x-axis, top-left corner is negative x-axis and the top-right corner is the positive y-axis, bottom-left is negative y-axis.
-                Click <b>"Generate"</b> to retrieve a corresponding precomputed image.
+              Creating machines capable of understanding the world in 3D is essential in assisting designers that build and edit 3D environments and robots navigating and interacting within a three-dimensional space. Inspired by advances in language and image modeling, we investigate the potential of autoregressive models for a new domain: 3D scenes. We build a 3D multi-modal large language model (3D-MLLM) that aligns language, images, and 3D scenes. We provide a detailed "cookbook" outlining critical design choices for achieving optimal training and performance. We address key questions related to architecture, training strategies, data representation, modality-specific objectives, and more. Through an extensive and rigorous analysis, we evaluate performance across four core 3D tasks (rendering, recognition, instruction-following, question-answering) and three 3D datasets. We believe our findings will serve as practical guidelines for training LLMs tailored for 3D understanding.
             </p>
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Approach</h2>
+          <div class="content has-text-justified">
+            <p>
+              <b>Left:</b> Our 3D-MLLM, a decoder-only Transformer, aligns images, 3D, and text. 
+              <b>Right:</b> We evaluate 3D-MLLM on four core 3D tasks framed as next-token prediction -- 
+              rendering, recognition, instruction-following, and question-answering.
+            </p>
+            <!-- Make images responsive -->
+            <img src="static/images/teaser.png" alt="Approach" style="max-width:100%; height:auto;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   
-      <!-- Demo Container -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Qualitative Examples</h2>
+          <div class="tabs is-boxed is-centered is-medium" id="tabs">
+            <ul>
+              <li data-tab="rendering-clevr" class="is-active"><a>Rendering - CLEVR</a></li>
+              <li data-tab="rendering-objaworld"><a>Rendering - ObjaWorld</a></li>
+              <li data-tab="recognition"><a>Recognition</a></li>
+              <li data-tab="question-answering"><a>Question-Answering</a></li>
+            </ul>
+          </div>
+          <div class="columns is-centered has-text-left"></div>
+          <div id="tabs-content">
+            <!-- Rendering (CLEVR) -->
+            <div data-content="rendering-clevr" class="tab-content is-active content has-text-left">
+              <div class="columns is-centered has-text-left">
+                <div class="column is-two-thirds content">
+                  Example image generations for the rendering task on CLEVR. The model takes a 3D scene as input and produces a corresponding image. Additionally, we show the ground-truth image rendered using Blender.
+                </div>
+              </div>
+              <figure class="image">
+                <img src="static/images/app-rendering-examples-clevr.png" style="max-width:100%; height:auto;">
+              </figure>
+            </div>
+            <!-- Rendering (ObjaWorld) -->
+            <div data-content="rendering-objaworld" class="tab-content content">
+              <div class="columns is-centered has-text-left">
+                <div class="column is-two-thirds content">
+                  Example image generations for the rendering task on ObjaWorld. The model takes a 3D scene as input and produces a corresponding image. Additionally, we show the ground-truth image rendered using Blender.
+                </div>
+              </div>
+              <figure class="image">
+                <img src="static/images/app-rendering-examples-objaworld.png" style="max-width:100%; height:auto;">
+              </figure>
+            </div>
+            <!-- Recognition -->
+            <div data-content="recognition" class="tab-content content">
+              <div class="columns is-centered has-text-left">
+                <div class="column is-two-thirds content">
+                  Two example predictions from the recognition task on ObjaWorld. The colored numbers indicate object matching between the predicted and ground-truth scenes, based on the criteria for Jaccard Index as defined in Algorithm 1 in the paper.
+                </div>
+              </div>
+              <figure class="image">
+                <img src="static/images/app-recognition-examples-clevr.png" style="max-width:100%; height:auto;">
+              </figure>
+            </div>
+            <!-- Question-Answering -->
+            <div data-content="question-answering" class="tab-content content">
+              <div class="columns is-centered has-text-left">
+                <div class="column is-two-thirds content">
+                  Example cases from the question-answering task on CLEVR. The model takes an image, a 3D scene, and a question as input to generate the corresponding answer.
+                </div>
+              </div>
+              <figure class="image">
+                <img src="static/images/app-qa-examples-clevr.png" style="max-width:100%; height:auto;">
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Interactive Rendering Demos</h2>
+          <div class="content has-text-justified">
+            <p>
+              Below is a JSON panel with exactly <b>3 objects</b>. The first and third are <b>read-only</b>, and you can only modify the <b>middle object</b>. Choose <code>shape</code>, <code>material</code>, <code>color</code>, and <code>size</code> for the second object. The <code>3d-coords</code> are fixed. Click <b>"Generate"</b> to retrieve a corresponding precomputed image.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div class="box" id="interactive-demo" style="margin-top: 2rem;">
         <div class="columns">
-          <!-- Left Column: Three JSON objects (1st & 3rd static, 2nd dynamic) -->
+          <!-- Left Column: The 3 Objects -->
           <div class="column is-half has-text-left" style="border-right: 1px solid #ddd;">
             <h3 class="title is-4">Scene Objects (Modify the middle one)</h3>
-  
-            <!-- 1) Static Object #1 -->
-            <div class="box object-row static-object"
-                 data-shape="cube"
-                 data-material="metal"
-                 data-color="yellow"
-                 data-size="large"
-                 style="margin-bottom: 0.75rem; padding: 0.75rem;">
-<p style="font-family: monospace; white-space: pre; margin: 0; font-size: 1.2rem;">
+
+            <!-- Static Object #1 -->
+            <div
+              class="box object-row static-object"
+              data-shape="cube"
+              data-material="metal"
+              data-color="yellow"
+              data-size="large"
+              style="margin-bottom: 0.75rem; padding: 0.75rem;"
+            >
+<pre style="font-family: monospace; white-space: pre; margin: 0; font-size: 1.2rem;">
 <span style="color: #999;">{</span>
     <span style="color: #2b6cb0;">"shape"</span>: <span style="color: #000000;">"sphere"</span>,
     <span style="color: #2b6cb0;">"material"</span>: <span style="color: #000000;">"metal"</span>,
@@ -307,50 +279,54 @@
     <span style="color: #2b6cb0;">"size"</span>: <span style="color: #000000;">"large"</span>,
     <span style="color: #2b6cb0;">"xy-coords"</span>: <span style="color: #000000;">"(-1.60,-2.20)"</span>
 <span style="color: #999;">}</span>
-</p>
+</pre>
             </div>
-  
-            <!-- 2) Dynamic Object #2 (the only one the user can change) -->
-            <div class="box object-row dynamic-object"
-                 style="margin-bottom: 0.75rem; padding: 0.75rem; position: relative;">
-<p style="font-family: monospace; white-space: pre; margin: 0; font-size: 1.2rem;">
+
+            <!-- Dynamic Object #2 (modifiable) -->
+            <div
+              class="box object-row dynamic-object"
+              style="margin-bottom: 0.75rem; padding: 0.75rem; position: relative;"
+            >
+<pre style="font-family: monospace; white-space: pre; margin: 0; font-size: 1.2rem;">
 <span style="color: #999;">{</span>
-    <span style="color: #2b6cb0;">"shape"</span>: <span style="color: #c53030;">"<select class="param-shape" style="display: inline; color: #c53030; border: none; background: transparent; outline: none; font-size: 1.2rem; text-align: center; text-align-last: center;">
-    <option value="sphere">sphere</option>
-    <option value="cube">cube</option>
-    <option value="cylinder">cylinder</option>
+    <span style="color: #2b6cb0;">"shape"</span>: <span style="color: #c53030;">"<select class="param-shape" style="display: inline; color: #c53030; border: none; background: transparent; outline: none; font-size: 1.2rem; text-align-last: center;">
+      <option value="sphere">sphere</option>
+      <option value="cube">cube</option>
+      <option value="cylinder">cylinder</option>
     </select>"</span>,
-    <span style="color: #2b6cb0;">"material"</span>: <span style="color: #c53030;">"<select class="param-material" style="display: inline; color: #c53030; border: none; background: transparent; outline: none; font-size: 1.2rem; text-align: center; text-align-last: center;">
-    <option value="metal">metal</option>
-    <option value="rubber">rubber</option>
+    <span style="color: #2b6cb0;">"material"</span>: <span style="color: #c53030;">"<select class="param-material" style="display: inline; color: #c53030; border: none; background: transparent; outline: none; font-size: 1.2rem; text-align-last: center;">
+      <option value="metal">metal</option>
+      <option value="rubber">rubber</option>
     </select>"</span>,
-    <span style="color: #2b6cb0;">"color"</span>: <span style="color: #c53030;">"<select class="param-color" style="display: inline; color: #c53030; border: none; background: transparent; outline: none; font-size: 1.2rem; text-align: center; text-align-last: center;">
-    <option value="red">red</option>
-    <option value="blue">blue</option>
-    <option value="green">green</option>
-    <option value="purple">purple</option>
-    <option value="yellow">yellow</option>
-    <option value="cyan">cyan</option>
-    <option value="brown">brown</option>
-    <option value="gray">gray</option>
+    <span style="color: #2b6cb0;">"color"</span>: <span style="color: #c53030;">"<select class="param-color" style="display: inline; color: #c53030; border: none; background: transparent; outline: none; font-size: 1.2rem; text-align-last: center;">
+      <option value="red">red</option>
+      <option value="blue">blue</option>
+      <option value="green">green</option>
+      <option value="purple">purple</option>
+      <option value="yellow">yellow</option>
+      <option value="cyan">cyan</option>
+      <option value="brown">brown</option>
+      <option value="gray">gray</option>
     </select>"</span>,
-    <span style="color: #2b6cb0;">"size"</span>: <span style="color: #c53030;">"<select class="param-size" style="display: inline; color: #c53030; border: none; background: transparent; outline: none; font-size: 1.2rem; text-align: center; text-align-last: center;">
-    <option value="small">small</option>
-    <option value="large">large</option>
+    <span style="color: #2b6cb0;">"size"</span>: <span style="color: #c53030;">"<select class="param-size" style="display: inline; color: #c53030; border: none; background: transparent; outline: none; font-size: 1.2rem; text-align-last: center;">
+      <option value="small">small</option>
+      <option value="large">large</option>
     </select>"</span>,
-    <span style="color: #2b6cb0;">"xy-coords"</span>: <span style="color: #c53030;">"(2.40,-2.35)"</span><br>
+    <span style="color: #2b6cb0;">"xy-coords"</span>: <span style="color: #c53030;">"(2.40,-2.35)"</span>
 <span style="color: #999;">}</span>
-</p>
+</pre>
             </div>
-  
-            <!-- 3) Static Object #3 -->
-            <div class="box object-row static-object"
-                 data-shape="sphere"
-                 data-material="rubber"
-                 data-color="blue"
-                 data-size="small"
-                 style="margin-bottom: 0.75rem; padding: 0.75rem;">
-<p style="font-family: monospace; white-space: pre; margin: 0; font-size: 1.2rem;">
+
+            <!-- Static Object #3 -->
+            <div
+              class="box object-row static-object"
+              data-shape="sphere"
+              data-material="rubber"
+              data-color="blue"
+              data-size="small"
+              style="margin-bottom: 0.75rem; padding: 0.75rem;"
+            >
+<pre style="font-family: monospace; white-space: pre; margin: 0; font-size: 1.2rem;">
 <span style="color: #999;">{</span>
     <span style="color: #2b6cb0;">"shape"</span>: <span style="color: #000000;">"cylinder"</span>,
     <span style="color: #2b6cb0;">"material"</span>: <span style="color: #000000;">"rubber"</span>,
@@ -358,176 +334,169 @@
     <span style="color: #2b6cb0;">"size"</span>: <span style="color: #000000;">"large"</span>,
     <span style="color: #2b6cb0;">"xy-coords"</span>: <span style="color: #000000;">"(2.75,0.35)"</span>
 <span style="color: #999;">}</span>
-</p>
+</pre>
             </div>
-  
-      <!-- Generate Button -->
-      <div class="field" style="margin-top: 1rem;">
-        <p class="control">
-          <button id="generate-btn" class="button is-primary">
-            <span class="icon"><i class="fas fa-magic"></i></span>
-            <span>Generate</span>
-          </button>
-        </p>
+
+            <!-- Generate Button -->
+            <div class="field" style="margin-top: 1rem;">
+              <p class="control">
+                <button id="generate-btn" class="button is-primary">
+                  <span class="icon"><i class="fas fa-magic"></i></span>
+                  <span>Generate</span>
+                </button>
+              </p>
+            </div>
+          </div>
+
+          <!-- Right Column: Generated & Groundtruth Images -->
+          <div class="column is-half">
+            <h3 class="title is-4 has-text-centered">Generated Image</h3>
+            <div style="border: 1px solid #ddd; border-radius: 6px; padding: 1rem; margin-bottom: 1.5rem;">
+              <figure
+                class="image is-square is-flex is-align-items-center is-justify-content-center"
+                style="background: #f5f5f5; position: relative;"
+              >
+                <img
+                  id="generated-img"
+                  src="static/images/3d-vector.png"
+                  alt="Generated Output"
+                  style="display:block; max-width:100%; height:auto;"
+                >
+                <!-- Spinner (hidden by default) -->
+                <div
+                  id="loading-indicator"
+                  style="
+                    display: none;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                  "
+                >
+                  <span class="icon is-large">
+                    <i class="fas fa-spinner fa-pulse fa-3x"></i>
+                  </span>
+                </div>
+              </figure>
+            </div>
+
+            <h3 class="title is-4 has-text-centered">Groundtruth Image (Blender)</h3>
+            <div style="border: 1px solid #ddd; border-radius: 6px; padding: 1rem;">
+              <figure
+                class="image is-square is-flex is-align-items-center is-justify-content-center"
+                style="background: #f5f5f5; position: relative;"
+              >
+                <img
+                  id="groundtruth-img"
+                  src="static/images/3d-vector.png"
+                  alt="Groundtruth Output"
+                  style="display:block; max-width:100%; height:auto;"
+                >
+              </figure>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- Right Column: Display Generated Image & Groundtruth Image -->
-<div class="column is-half">
-    <h3 class="title is-4 has-text-centered">Generated Image</h3>
-    <div style="border: 1px solid #ddd; border-radius: 6px; padding: 1rem; margin-bottom: 1.5rem;">
-      <figure class="image is-square is-flex is-align-items-center is-justify-content-center"
-              style="background: #f5f5f5; position: relative;">
-        <!-- 1) The displayed image -->
-        <img id="generated-img"
-             src="static/images/3d-vector.png"
-             alt="Generated Output"
-             style="max-width: 100%; max-height: 100%;">
-        <!-- 2) The spinner (centered, initially hidden) -->
-        <div id="loading-indicator"
-             style="
-               display: none; 
-               position: absolute;
-               top: 50%;
-               left: 50%;
-               transform: translate(-50%, -50%);
-             ">
-          <span class="icon is-large">
-            <i class="fas fa-spinner fa-pulse fa-3x"></i>
-          </span>
-        </div>
-      </figure>
-    </div>
+  </section>
   
-    <!-- Groundtruth Image Section -->
-    <h3 class="title is-4 has-text-centered">Groundtruth Image (Blender)</h3>
-    <div style="border: 1px solid #ddd; border-radius: 6px; padding: 1rem;">
-      <figure class="image is-square is-flex is-align-items-center is-justify-content-center"
-              style="background: #f5f5f5; position: relative;">
-        <!-- Groundtruth image -->
-        <img id="groundtruth-img"
-             src="static/images/3d-vector.png"
-             alt="Groundtruth Output"
-             style="max-width: 100%; max-height: 100%;">
-      </figure>
-    </div>
-  </div>
-    </div>
-  </div>
-        </div>
-    </section>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Varying the X-coordinate (Rolling Ball Demo)</h2>
+      <div class="content has-text-justified">
+        <p>
+          Below is another interactive demo that lets you vary the <b>x</b>-coordinate from <code>-3.00</code> to <code>+3.00</code> in steps of <code>0.05</code>. For each x value, we display a pair of images: <b>generated</b> vs. <b>groundtruth</b>.
+        </p>
+      </div>
 
-    <section class="section">
-        <div class="container is-max-desktop">
-      
-          <h2 class="title is-3">Varying the X-coordinate (Rolling Ball Demo)</h2>
-          <div class="content has-text-justified">
-            <p>
-              Below is another interactive demo that lets you vary the <b>x</b>-coordinate from <code>-3.00</code> to
-              <code>+3.00</code> in steps of <code>0.05</code>. For each x value, we display a pair of images:
-              <b>generated</b> vs. <b>groundtruth</b>. Note that the coordinate axes are such that the bottom-right corner is the positive x-axis, top-left corner is negative x-axis and the top-right corner is the positive y-axis, bottom-left is negative y-axis.
-            </p>
-          </div>
-      
-          <!-- Slider control -->
-          <div class="field has-text-centered" style="text-align: center;">
-            <label class="label" style="text-align: center;">X-coordinate value:</label>
-            <div class="control" style="display: inline-block; white-space: nowrap;">
-              <input
-                id="x-slider"
-                class="slider"
-                step="0.05"
-                min="-3.00"
-                max="3.00"
-                value="0.00"
-                type="range"
-                style="vertical-align: middle; width: 700px;"
-              >
-              <output
-                id="x-slider-value"
-                style="display: inline-block; margin-left: 0.5rem; vertical-align: middle;"
-              >
-                0.00
-              </output>
-            </div>
-          </div>
-      
-          <!-- Images side by side -->
-          <div class="columns">
-            <div class="column is-half">
-              <h3 class="title is-4 has-text-centered">Generated Image</h3>
-              <figure 
-                class="image is-square is-flex is-align-items-center is-justify-content-center"
-                style="background: #f5f5f5;"
-              >
-                <img
-                  id="x-generated-img"
-                  src="GENERATED/generated_0.00-sphere-metal-gray-small.png"
-                  alt="Generated Output"
-                  style="max-width: 100%; max-height: 100%;"
-                >
-              </figure>
-            </div>
-      
-            <div class="column is-half">
-              <h3 class="title is-4 has-text-centered">Groundtruth Image (Blender)</h3>
-              <figure 
-                class="image is-square is-flex is-align-items-center is-justify-content-center"
-                style="background: #f5f5f5;"
-              >
-                <img
-                  id="x-groundtruth-img"
-                  src="BLENDER-GROUNDTRUTH/0.00-sphere-metal-gray-small.png"
-                  alt="Groundtruth Output"
-                  style="max-width: 100%; max-height: 100%;"
-                >
-              </figure>
-            </div>
-          </div>
-      
+      <!-- Slider control -->
+      <div class="field has-text-centered">
+        <label class="label" style="text-align: center;">X-coordinate value:</label>
+        <div class="control" style="display: inline-block;">
+          <input
+            id="x-slider"
+            class="slider"
+            step="0.05"
+            min="-3.00"
+            max="3.00"
+            value="0.00"
+            type="range"
+            style="vertical-align: middle; width: 100%;"
+          >
+          <output
+            id="x-slider-value"
+            style="display: inline-block; margin-left: 0.5rem; vertical-align: middle;"
+          >
+            0.00
+          </output>
         </div>
-      </section>
+      </div>
 
-    <section class="section" id="BibTeX">
-        <div class="container is-max-desktop content">
-            <h2 class="title">BibTeX</h2>
-            <pre>
-<code>@article{sahoo2023autoregressive,
+      <!-- Images side by side -->
+      <div class="columns">
+        <div class="column is-half">
+          <h3 class="title is-4 has-text-centered">Generated Image</h3>
+          <figure
+            class="image is-square is-flex is-align-items-center is-justify-content-center"
+            style="background: #f5f5f5;"
+          >
+            <img
+              id="x-generated-img"
+              src="GENERATED/generated_0.00-sphere-metal-gray-small.png"
+              alt="Generated Output"
+              style="max-width:100%; height:auto;"
+            >
+          </figure>
+        </div>
+        <div class="column is-half">
+          <h3 class="title is-4 has-text-centered">Groundtruth Image (Blender)</h3>
+          <figure
+            class="image is-square is-flex is-align-items-center is-justify-content-center"
+            style="background: #f5f5f5;"
+          >
+            <img
+              id="x-groundtruth-img"
+              src="BLENDER-GROUNDTRUTH/0.00-sphere-metal-gray-small.png"
+              alt="Groundtruth Output"
+              style="max-width:100%; height:auto;"
+            >
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@article{sahoo2023autoregressive,
     title={An Autoregressive Exploration of 3D Multi-Modal LLMs},
     author={Sahoo, Aadarsh and Gkioxari, Georgia},
     journal={arXiv preprint arXiv:XXXX.XXXXX},
     year={2023}
   }</code></pre>
-        </div>
-    </section>
-
-    <div id="modal" class="modal">
-        <div class="modal-background"></div>
-
-        <div class="modal-content">
-            <div id='plot-loading-div' class="box">
-                Loading...
-            </div>
-            <div id='plot-div'></div>
-        </div>
-
-        <button class="modal-close is-large" aria-label="close"></button>
     </div>
+  </section>
 
-    
+  <div id="modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div id='plot-loading-div' class="box">
+        Loading...
+      </div>
+      <div id='plot-div'></div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+  </div>
 
-</body>
-
-</html>
-
-
-<script>
+  <!-- JavaScript to handle interactivity -->
+  <script>
     /**
      * Build the final image filename from the 3 objects.
-     * e.g. "generated_cube-metal-yellow-large__sphere-rubber-blue-small__sphere-metal-purple-large.png"
+     * e.g. "generated_sphere-metal-red-large__cube-rubber-blue-small__sphere-metal-purple-large.png"
      */
     function buildImageFilename(objects) {
-      // e.g. "generated_sphere-metal-red-large__cube-rubber-blue-small__sphere-metal-purple-large.png"
+      // For example: "generated_sphere-metal-red-large__cube-rubber-blue-small__sphere-metal-purple-large.png"
       const parts = objects.map(obj => {
         return `generated_${obj.shape}-${obj.material}-${obj.color}-${obj.size}`;
       });
@@ -535,7 +504,7 @@
     }
 
     $(document).ready(function() {
-      // ------------ FIRST DEMO (Generate Button) ------------ //
+      // ------------ FIRST DEMO (Generate Button) ------------
       $('#generate-btn').click(function(e) {
         e.preventDefault();
 
@@ -558,23 +527,25 @@
           size:     $('.static-object').eq(1).data('size')
         };
 
-        // Collect the user-modifiable object plus the 2 static ones if needed
+        // If you want the final filename to incorporate all 3 objects, do so here:
+        // const objects = [staticObj1, dynamicObj2, staticObj3];
+        // For the example, we’re only using the dynamic object:
         const objects = [dynamicObj2];
 
-        // Build a filename for the "generated" image
         const fileName = buildImageFilename(objects);
 
-        // Construct full path for the generated + groundtruth
+        // Construct the paths:
         const generatedPath   = './static/demo-images/' + fileName;
-        const groundtruthPath = './static/demo-images/blender-groundtruth/'
-                                + fileName.replace('generated_', '');
+        // Example: "generated_sphere-metal-red-large__..." => remove "generated_" if needed
+        const groundtruthPath = './static/demo-images/blender-groundtruth/' +
+                                fileName.replace('generated_', '');
 
-        // Show loading spinner, hide images
+        // Show spinner
         $('#generated-img').hide();
         $('#groundtruth-img').hide();
         $('#loading-indicator').show();
 
-        // Simulate a short delay to mimic loading
+        // Simulate a short delay to mimic loading/fetching
         setTimeout(() => {
           $('#loading-indicator').hide();
           $('#generated-img').attr('src', generatedPath).show();
@@ -582,35 +553,25 @@
         }, 1500);
       });
 
-      // ------------ SECOND DEMO (Slider for X-coordinate) ------------ //
-      // 1) Factor out the update logic into a function so we can call it on load
+      // ------------ SECOND DEMO (Slider for X-coordinate) ------------
       function updateSliderImages() {
-        // Grab current slider value (to 2 decimals)
         let val = parseFloat($('#x-slider').val()).toFixed(2);
+        // If you need a plus sign for positive:
+        // let signVal = (val >= 0) ? `+${val}` : val;
+        let signVal = val;
 
-        // We can prepend a '+' if you like, but be sure it matches how your images are named
-        // e.g., if your image file names are "generated_-2.00-sphere-metal-gray-small.png"
-        // or "generated_+2.00-sphere-metal-gray-small.png"
-        // For example, if you need a plus sign for positive values:
-        let signVal = val // (val >= 0) ? `+${val}` : val; 
-
-        // Update the displayed numerical value
         $('#x-slider-value').text(val);
 
-        // Build the file paths for the generated & groundtruth images
-        // (Adjust exactly how you name your files as needed)
         let generatedPath = `./static/x-axis-demo-images/GENERATED/generated_${signVal}-sphere-metal-gray-small.png`;
         let groundPath    = `./static/x-axis-demo-images/BLENDER-GROUNDTRUTH/${signVal}-sphere-metal-gray-small.png`;
 
-        // Update the <img> 'src' attributes
         $('#x-generated-img').attr('src', generatedPath);
         $('#x-groundtruth-img').attr('src', groundPath);
       }
 
-      // 2) Listen for slider changes and call our function
       $('#x-slider').on('input', updateSliderImages);
-
-      // 3) **Call it ONCE right away** (so an image is shown before moving the slider)
-      updateSliderImages();
+      updateSliderImages(); // call once on page load
     });
-</script>
+  </script>
+</body>
+</html>
